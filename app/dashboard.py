@@ -1,23 +1,24 @@
-import streamlit as st
 import sys
 import os
+
+# --- Ensure Python can find the 'source' package ---
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, '..'))
+sys.path.insert(0, project_root)
+
+
+import streamlit as st
 import joblib
-import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
 import shap
 import warnings
 import numpy as np
-# Import necessary components from your source package
+
 from source.preprocess import preprocess
 from source._utils import load_data_and_preprocess
 from source.fairness_check import demographic_parity_difference
 
-# --- Path Fix for Module Discovery ---
-# This ensures Python can find the 'source' package when run via 'streamlit run'.
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.join(current_dir, '..')
-sys.path.insert(0, project_root)
-# -------------------------------------
 
 st.title("CognitiveAI - An AI Model Bias Detector")
 
@@ -41,6 +42,12 @@ warnings.filterwarnings("ignore", category=UserWarning)
 st.header("Model Evaluation")
 # Show model accuracy
 st.write("Our Model Accuracy:", clf.score(X_test, y_test))
+
+#Temporarily added to check paths validation
+# st.write("Current directory:", os.getcwd())
+# st.write("Project root:", project_root)
+# st.write("Sys path:", sys.path)
+
 
 # Show demographic parity difference
 preds = clf.predict(X_test)
